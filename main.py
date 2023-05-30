@@ -1,5 +1,6 @@
 import datetime as dt
 import pandas
+import random
 
 now = dt.datetime.now()
 month = now.date().month
@@ -13,4 +14,6 @@ bday_dict = {(data_row.month, data_row.day): data_row for (index, data_row) in d
 # print(bday_dict)
 
 if today_tuple in bday_dict:
-    print(f"Happy Birthday to you {bday_dict[today_tuple]['name']}!")
+    with open(f"letter_templates/letter_{random.randint(1,3)}.txt") as letter:
+        new_letter = letter.read()
+        print(new_letter.replace("[NAME]", bday_dict[today_tuple]['name']))
