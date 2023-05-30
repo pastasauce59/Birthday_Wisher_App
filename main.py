@@ -11,14 +11,12 @@ day_of_week = now.day
 today_tuple = (month, day_of_week)
 
 data = pandas.read_csv('birthday-test.csv')
-# print(data)
 bday_dict = {(data_row.month, data_row.day): data_row for (index, data_row) in data.iterrows()}
-# print(bday_dict)
 
 if today_tuple in bday_dict:
     with open(f"letter_templates/letter_{random.randint(1,3)}.txt") as letter:
         new_letter = letter.read()
-        # print(new_letter.replace("[NAME]", bday_dict[today_tuple]['name']))
+        new_letter = new_letter.replace("[NAME]", bday_dict[today_tuple]['name'])
 
     with smtplib.SMTP("smtp.gmail.com") as connection:
         connection.starttls()
@@ -26,5 +24,5 @@ if today_tuple in bday_dict:
         connection.sendmail(
             from_addr=my_email,
             to_addrs=to_sender,
-            msg=f"Subject: HAPPY BIRTHDAY!\n\n{new_letter.replace('[NAME]', bday_dict[today_tuple]['name'])}"
+            msg=f"Subject: HAPPY BIRTHDAY!\n\n{new_letter}"
             )
